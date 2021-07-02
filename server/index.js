@@ -35,7 +35,7 @@ app.post('/goldboot', (req, res) => {
 })
 
 app.post('/weather', async function (req, res) {
-    console.log("REQ", req.body.country);
+    console.log("POST Activated...", req.body.player);
     const api_url =
         "https://api.openweathermap.org/data/2.5/weather?lat=31.5085&lon=0.1257&appid=6dfbdd4309772888b6661bd5132a9893";
     const fetch_response = await fetch(api_url);
@@ -46,6 +46,7 @@ app.post('/weather', async function (req, res) {
 });
 
 app.get('/weather', async function (req, res) {
+    console.log("GET Activated");
     const api_url =
         "https://api.openweathermap.org/data/2.5/weather?lat=31.5085&lon=0.1257&appid=6dfbdd4309772888b6661bd5132a9893";
     const fetch_response = await fetch(api_url);
@@ -56,19 +57,21 @@ app.get('/weather', async function (req, res) {
     // res.json({ message: "WEATHER" })
 })
 
-app.get('/goldenboot', async function (req, res) {
+app.post('/goldenboot', async function (req, res) {
+    console.log("IN GOLD BOOT POST...", req.body.player);
     const gboot_api_url =
         "https://mobile.guardianapis.com/sport/football/competitions/750/golden-boot"
     const fetch_response = await fetch(gboot_api_url);
     const scorers = await fetch_response.json();
-
-    // console.log(scorers);
-    // const swiss = scorers.filter(a => a.country == "Belgium")
-    const swiss1 = scorers.filter(a => a.name == req.body)
-    const swiss = scorers
-
-    console.log("SWISS CHEESE", swiss);
-    res.json(swiss);
+    // console.log(scorers.filter(plr => plr.name == req.body.player));
+    const playerData = scorers.filter(plr => plr.name == req.body.player);
+    const playerDataResponse = {
+        name: playerData[0].name,
+        rank: playerData[0].rank,
+        goals: playerData[0].goals
+    }
+    console.log(playerDataResponse);
+    res.json(playerDataResponse);
 });
 
 app.listen(5000, () => {
