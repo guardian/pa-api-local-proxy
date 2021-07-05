@@ -2,7 +2,27 @@ const { response, json, request } = require('express');
 const express = require('express');
 const cors = require('cors');
 var convert = require('xml-js');
+var parser = require('fast-xml-parser');
+var he = require('he');
 
+var options = {
+    attributeNamePrefix: "",
+    attrNodeName: "metaData", //default is 'false'
+    textNodeName: "#text",
+    ignoreAttributes: false,
+    ignoreNameSpace: false,
+    allowBooleanAttributes: false,
+    parseNodeValue: true,
+    parseAttributeValue: false,
+    trimValues: true,
+    cdataTagName: "__cdata", //default is 'false'
+    cdataPositionChar: "\\c",
+    parseTrueNumberOnly: false,
+    arrayMode: false, //"strict"
+    attrValueProcessor: (val, attrName) => he.decode(val, { isAttributeValue: true }),//default is a=>a
+    tagValueProcessor: (val, tagName) => he.decode(val), //default is a=>a
+    stopNodes: ["parse-me-as-string"]
+};
 
 // var fs = quire('fs');
 const app = express();
@@ -15,9 +35,6 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json({ message: "Hey Welcome to home Root!" })
 })
-
-
-
 
 app.post('/goldenboot', async function (req, res) {
     console.log("IN GOLD BOOT GET...", req.body.pname);
@@ -45,24 +62,13 @@ app.post('/matches', async function (req, res) {
     const match = await fetch_resp.text()
     console.log(match)
 
-    // var result1 = convert.xml2json(match, { compact: true, spaces: 4 });
-    var result2 = convert.xml2json(match, { compact: false, spaces: 4 });
-    var parsed = JSON.parse(result2);
-    // console.log(parsed)
-
-    const allMatches = parsed.elements[0].elements
-    // console.log("ALLL", allMatches);
-
-    const secondMatch = parsed.elements[0].elements[1].elements.find(a => a.name === "awayTeam")
-    // console.log("Second", secondMatch);
+    if (parser.validate(match) === true) { //optional (it'll return an object in case it's not valid)
+        var jsonObj = parser.parse(match, options);
+        console.log("ADDED XML:", jsonObj.matches.match)
+    }
 
 
-    const matchIds = parsed.elements[0].elements.map(a => a.attributes.matchID)
-    // console.log(">>>", matchIds);
-
-    const matchDataResponse = { matchIds: matchIds }
-
-
+    const matchDataResponse = jsonObj.matches
     res.set('Content-Type', 'application/json');
     res.send(matchDataResponse);
 });

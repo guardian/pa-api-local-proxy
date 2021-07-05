@@ -76,12 +76,30 @@ function getCountryMatch() {
     fetch(API_MATCHES, options)
         .then(response => response.json())
         .then(matchData => {
-            console.log("Returned from Server to Client in client", matchData);
-            // form.style.display = ''
-            const div = document.createElement('div');
 
-            const header = document.createElement('h4');
-            header.textContent = `Match IDs for Date: ${matchData.matchIds}`
+            console.log("Returned from Server to Client in client", matchData);
+
+            matchData.match.forEach(element => {
+                console.log(element);
+                const div = document.createElement('div');
+
+                const header = document.createElement('h5');
+                header.textContent = `Match ID: ${element.metaData.matchID}`
+                div.appendChild(header);
+
+                const headerHome = document.createElement('h5');
+                headerHome.textContent = `Match ID: ${element.homeTeam.teamName}`
+                div.appendChild(headerHome);
+
+                const headerAway = document.createElement('h5');
+                headerAway.textContent = `Match ID: ${element.awayTeam.teamName}`
+                div.appendChild(headerAway);
+
+                matchIdElement.appendChild(div)
+
+
+            });
+            // form.style.display = ''
 
             // const scorerGoals = document.createElement('h4');
             // scorerGoals.textContent = `Goals Scored: ${matchData.goals}`;
@@ -89,11 +107,11 @@ function getCountryMatch() {
             // const scorerRank = document.createElement('h4');
             // scorerRank.textContent = `Rank: ${matchData.rank}`;
 
-            div.appendChild(header);
+
             // div.appendChild(scorerGoals);
             // div.appendChild(scorerRank);
 
-            matchIdElement.appendChild(div)
+
         })
 
 }
