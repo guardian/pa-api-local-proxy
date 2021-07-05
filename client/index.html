@@ -10,25 +10,32 @@
   <body>
     <header class="title"><h1>PA API PRXY APP</h1></header>
     <main>
-      <form class="proxy-api" id="proxy-api">
-        <label for="player">Player name</label>
-        <input class="u-full-width" type="text" id="player" name="player" />
-        <!-- <label for="country">Country</label>
-        <textarea
-          class="u-full-width"
+      <form class="proxy-api" id="searching" action="javascript:void(0);">
+        <input
           type="text"
-          id="country"
-          name="country"
-        ></textarea> -->
-        <button class="botton-primary">Send Request</button>
+          name="api-key"
+          id="input-api-key"
+          value="Enter Api Key"
+        />
+        <br /><br />
+        <label for="search">Enter Player Name </label>
+        <input type="text" name="name" id="inputPlayerName" value="" />
+        <br /><br />
+        <input type="submit" id="submitName" value="Weather" />
         <br />
-        Result Country
-        <div id="goldenboot"><span></span>:</div>
+        <div class="goldenboot"></div>
         <br />
+        <hr class="rounded" />
+        <label for="searchByDate"
+          >Enter Date of match in format '20210615'
+        </label>
+        <input type="text" name="name" id="inputDate" value="" /><br /><br />
+        <input type="submit" id="submitDate" value="dateSub!" />
+        <div class="outputMatchIDResults"></div>
       </form>
+
       <div class="loading"><img src="giphy.gif" alt="" /></div>
       <div class="API PA"></div>
-      <div class="goldenboot"></div>
     </main>
     <script src="client.js"></script>
   </body>
