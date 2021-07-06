@@ -22,15 +22,15 @@ This can be done with minimal hassle without the need know all the URLs for the 
 
 ## Run Locally
 Server:
-Must be in pa-api-local-proxy/server directory
-`node index.js` builds the project locally, spins up a webserver on http://localhost:5000
-alternatively watch for changes
-`nodemon` builds the project locally, spins up a webserver on http://localhost:5000, and watches for file changes. (https://www.npmjs.com/package/nodemon)
+-Must be in pa-api-local-proxy/server directory
+- `node index.js` builds the project locally, spins up a webserver on http://localhost:5000
+-alternatively watch for changes
+- `nodemon` builds the project locally, spins up a webserver on http://localhost:5000, and watches for file changes. (https://www.npmjs.com/package/nodemon)
 
 Client:
-`Liver Server` from within VS CODE as a plugin - spins up a webserver on http://127.0.0.1:5500/pa-api-local-proxy/client/index.html
+- `Liver Server` from within VS CODE as a plugin - spins up a webserver on http://127.0.0.1:5500/pa-api-local-proxy/client/index.html
 alternatively must be in pa-api-local-proxy/client
-`open index.html` - to open the web page in local browser
+- `open index.html` - to open the web page in local browser
 
 ## API - Key
 - API key for Press Association - found in AWS services for Guardian employees
