@@ -4,8 +4,6 @@ const loadingElement = document.querySelector('.loading');
 const goldBootElement = document.querySelector('.goldenboot')
 const matchIdElement = document.querySelector('.outputMatchIDResults')
 const API_URL_GOLD = 'http://localhost:5000/goldenboot';
-const API_URL_WEATHER = 'http://localhost:5000/weather';
-const APEYE_URL = "http://localhost:5000/apeye"
 const API_MATCHES = "http://localhost:5000/matches"
 loadingElement.style.display = 'none'
 // form.style.display = ''
@@ -39,13 +37,13 @@ function getSearchGold() {
             // loadingElement.style.display = 'none'
             const div = document.createElement('div');
 
-            const header = document.createElement('h4');
+            const header = document.createElement('p');
             header.textContent = `Player: ${playerData.name}`
 
-            const scorerGoals = document.createElement('h4');
+            const scorerGoals = document.createElement('p');
             scorerGoals.textContent = `Goals Scored: ${playerData.goals}`;
 
-            const scorerRank = document.createElement('h4');
+            const scorerRank = document.createElement('p');
             scorerRank.textContent = `Rank: ${playerData.rank}`;
 
             div.appendChild(header);
@@ -83,127 +81,19 @@ function getCountryMatch() {
                 console.log(element);
                 const div = document.createElement('div');
 
-                const header = document.createElement('h5');
+                const header = document.createElement('p');
                 header.textContent = `Match ID: ${element.metaData.matchID}`
                 div.appendChild(header);
 
-                const headerHome = document.createElement('h5');
-                headerHome.textContent = `Match ID: ${element.homeTeam.teamName}`
+                const headerHome = document.createElement('p');
+                headerHome.textContent = `Home Team: ${element.homeTeam.teamName}`
                 div.appendChild(headerHome);
 
-                const headerAway = document.createElement('h5');
-                headerAway.textContent = `Match ID: ${element.awayTeam.teamName}`
+                const headerAway = document.createElement('p');
+                headerAway.textContent = `Away Team: ${element.awayTeam.teamName}`
                 div.appendChild(headerAway);
 
                 matchIdElement.appendChild(div)
-
-
             });
-            // form.style.display = ''
-
-            // const scorerGoals = document.createElement('h4');
-            // scorerGoals.textContent = `Goals Scored: ${matchData.goals}`;
-
-            // const scorerRank = document.createElement('h4');
-            // scorerRank.textContent = `Rank: ${matchData.rank}`;
-
-
-            // div.appendChild(scorerGoals);
-            // div.appendChild(scorerRank);
-
-
         })
-
 }
-
-
-// form.addEventListener('submit', (event) => {
-//     event.preventDefault()
-//     const formData = new FormData(form)
-//     const country = formData.get('country')
-//     const player = formData.get('player')
-//     console.log("Player Name", player);
-
-//     const totalFormData = {
-//         player,
-//         country
-//     }
-//     console.log("Forma Data sent from Client in client", totalFormData);
-//     form.style.display = 'none'
-//     loadingElement.style.display = 'none'
-
-//     // fetch(API_URL_GOLD)
-//     //     .then(response => response.json())
-//     //     .then(goldbootscorers => {
-//     //         console.log("GoldenBootScrs", goldbootscorers);
-//     //         goldbootscorers.forEach(scorer => {
-//     //             const div = document.createElement('div');
-
-//     //             const header = document.createElement('h3');
-//     //             header.textContent = scorer.name;
-
-//     //             const goalsScored = document.createElement('p');
-//     //             goalsScored.textContent = scorer.goals;
-
-//     //             div.appendChild(header);
-//     //             div.appendChild(goalsScored);
-
-//     //             goldBootElement.appendChild(div)
-
-//     //         })
-//     //     })
-
-
-//     fetch(API_URL_GOLD, {
-//         method: "POST",
-//         body: JSON.stringify(totalFormData),
-//         headers: {
-//             'content-type': 'application/json'
-//         }
-//     }).then(response => response.json())
-//         .then(playerData => {
-//             console.log("Returned from Server to Client in client", playerData);
-//             form.style.display = ''
-//             loadingElement.style.display = 'none'
-//             const div = document.createElement('div');
-
-//             const header = document.createElement('h4');
-//             header.textContent = `Player: ${playerData.name}`
-
-//             const scorerGoals = document.createElement('h4');
-//             scorerGoals.textContent = `Goals Scored: ${playerData.goals}`;
-
-//             const scorerRank = document.createElement('h4');
-//             scorerRank.textContent = `Rank: ${playerData.rank}`;
-
-//             div.appendChild(header);
-//             div.appendChild(scorerGoals);
-//             div.appendChild(scorerRank);
-
-//             goldBootElement.appendChild(div)
-//             // document.getElementById("country").textContent = "TREEEEEE";
-//         })
-// })
-
-// function listGoldenBoot() {
-//     fetch(API_URL_GOLD)
-//         .then(response => response.json())
-//         .then(goldbootscorers => {
-//             console.log("WeatherFetched", goldbootscorers);
-//             goldbootscorers.forEach(scorer => {
-//                 const div = document.createElement('div');
-
-//                 const header = document.createElement('h3');
-//                 header.textContent = scorer.name;
-
-//                 const goalsScored = document.createElement('p');
-//                 goalsScored.textContent = scorer.goals;
-
-//                 div.appendChild(header);
-//                 div.appendChild(goalsScored);
-
-//                 goldBootElement.appendChild(div)
-
-//             })
-//         })
-// }
