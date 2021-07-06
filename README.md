@@ -29,6 +29,7 @@ Server:
 
 Client:
 - `Liver Server` from within VS CODE as a plugin - spins up a webserver on http://127.0.0.1:5500/pa-api-local-proxy/client/index.html
+
 alternatively must be in pa-api-local-proxy/client
 - `open index.html` - to open the web page in local browser
 
