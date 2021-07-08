@@ -3,17 +3,21 @@
 const loadingElement = document.querySelector('.loading');
 const goldBootElement = document.querySelector('.goldenboot')
 const matchIdElement = document.querySelector('.outputMatchIDResults')
+const matchIdCompIdElement = document.querySelector('.matchCompIDResult')
 const API_URL_GOLD = 'http://localhost:5000/goldenboot';
-const API_MATCHES = "http://localhost:5000/matches"
+const API_MATCHES = "http://localhost:5000/matches";
+const API_COMPID_DATE = "http://localhost:5000/allmatches";
 loadingElement.style.display = 'none'
 // form.style.display = ''
 
 const
     submit = document.getElementById('submitName'),
     submit2 = document.getElementById('submitDate');
+submit3 = document.getElementById('submitMatchCompId');
 
 submit.addEventListener('click', getSearchGold);
-submit2.addEventListener('click', getCountryMatch);
+submit2.addEventListener('click', getEuroMatch);
+submit3.addEventListener('click', getMatchesByCompID)
 
 function getSearchGold() {
     var playerName = document.getElementById("inputPlayerName").value;
@@ -57,7 +61,7 @@ function getSearchGold() {
 
 }
 
-function getCountryMatch() {
+function getEuroMatch() {
     var date = document.getElementById("inputDate").value;
     var apikey = document.getElementById("input-api-key").value;
     console.log("Date...", date);
@@ -95,5 +99,109 @@ function getCountryMatch() {
 
                 matchIdElement.appendChild(div)
             });
+        })
+}
+
+function getMatchesByCompID() {
+    var date = document.getElementById("inputDateCompID").value;
+    var compID = document.getElementById("inputCompID").value;
+    var apikey = document.getElementById("input-api-key").value;
+    // console.log("CompID...", compID);
+    const matchCompIdData = {
+        date: date,
+        api_key: apikey,
+        compID
+    }
+
+    const options = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(matchCompIdData)
+    }
+    fetch(API_COMPID_DATE, options)
+        .then(response => response.json())
+        .then(matchData => {
+
+            console.log("Returned from Server to Client in client", matchData.match.metaData);
+
+            // For multi Matches on Date metaData is followed by Array with 2+ items
+            // If only 1 match oin the Date data after metaData is undefined, no indexing.
+            if (matchData.match.metaData === undefined) {
+                console.log(" MULTI MATCHES");
+                matchData.match.forEach(element => {
+                    console.log("El", element);
+                    const div = document.createElement('div');
+
+                    const header = document.createElement('p');
+                    header.textContent = `Match ID: ${element.metaData.matchID}`
+                    div.appendChild(header);
+
+                    const headerHome = document.createElement('p');
+                    headerHome.textContent = `Home Team: ${element.homeTeam.teamName}`
+                    div.appendChild(headerHome);
+
+                    const headerHomeScorers = document.createElement('p');
+                    headerHomeScorers.textContent = `Home Team Scorers: ${element.homeTeam.scorers.__cdata}`
+                    div.appendChild(headerHomeScorers);
+
+                    const headerAway = document.createElement('p');
+                    headerAway.textContent = `Away Team: ${element.awayTeam.teamName}`
+                    div.appendChild(headerAway);
+
+                    const headerAwayScorers = document.createElement('p');
+                    headerAwayScorers.textContent = `Away Team Scorers: ${element.awayTeam.scorers.__cdata}`
+                    div.appendChild(headerAwayScorers);
+
+                    matchIdCompIdElement.appendChild(div)
+                })
+
+            } else {
+                console.log("SINGLE MATCH");
+                console.log(matchData);
+                const div = document.createElement('div');
+
+                const header = document.createElement('p');
+                header.textContent = `Match ID: ${matchData.match.metaData.matchID}`
+                div.appendChild(header);
+
+                const headerHome = document.createElement('p');
+                headerHome.textContent = `Home Team: ${matchData.match.homeTeam.teamName}`
+                div.appendChild(headerHome);
+
+                const headerHomeScorers = document.createElement('p');
+                headerHomeScorers.textContent = `Home Team Scorers: ${matchData.match.homeTeam.scorers.__cdata}`
+                div.appendChild(headerHomeScorers);
+
+                const headerAway = document.createElement('p');
+                headerAway.textContent = `Away Team: ${matchData.match.awayTeam.teamName}`
+                div.appendChild(headerAway);
+
+                const headerAwayScorers = document.createElement('p');
+                headerAwayScorers.textContent = `Away Team Scorers: ${matchData.match.awayTeam.scorers.__cdata}`
+                div.appendChild(headerAwayScorers);
+
+                matchIdCompIdElement.appendChild(div)
+
+
+            }
+
+            // matchData.match.forEach(element => {
+            //     console.log(element);
+            //     const div = document.createElement('div');
+
+            //     const header = document.createElement('p');
+            //     header.textContent = `Match ID: ${element.metaData.matchID}`
+            //     div.appendChild(header);
+
+            //     const headerHome = document.createElement('p');
+            //     headerHome.textContent = `Home Team: ${element.homeTeam.teamName}`
+            //     div.appendChild(headerHome);
+
+            //     const headerAway = document.createElement('p');
+            //     headerAway.textContent = `Away Team: ${element.awayTeam.teamName}`
+            //     div.appendChild(headerAway);
+
+            //     matchIdCompIdElement.appendChild(div)
+            // });
         })
 }

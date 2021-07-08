@@ -8,30 +8,44 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="title"><h1>Search PA api</h1></header>
+    <header style="background-color: lightsalmon" class="title">
+      <h4>Search PA api</h4>
+    </header>
     <main>
       <form class="proxy-api" id="searching" action="javascript:void(0);">
-        <input
-          type="text"
-          name="api-key"
-          id="input-api-key"
-          value="Enter Api Key"
-        />
+        <input type="text" name="api-key" id="input-api-key" value="" />
         <br /><br />
         <label for="search">Enter Player Name </label>
         <input type="text" name="name" id="inputPlayerName" value="" />
         <br /><br />
-        <input type="submit" id="submitName" value="Search" />
+        <input type="submit" id="submitName" value="Search Player" />
         <br />
         <div class="goldenboot"></div>
         <br />
-        <hr class="rounded" />
         <label for="searchByDate"
           >Enter Date of match in format '20210615'
         </label>
         <input type="text" name="name" id="inputDate" value="" /><br /><br />
-        <input type="submit" id="submitDate" value="dateSub!" />
+        <input type="submit" id="submitDate" value="Search Match IDs" />
         <div class="outputMatchIDResults"></div>
+
+        <br />
+        <label for="searchByDate_CompID"
+          >Enter Date of match and compID in format '20210614' and '750'
+        </label>
+        <input
+          type="text"
+          name="name"
+          id="inputDateCompID"
+          value=""
+        /><br /><input
+          type="text"
+          name="name"
+          id="inputCompID"
+          value=""
+        /><br />
+        <input type="submit" id="submitMatchCompId" value="Search Comps ID" />
+        <div class="matchCompIDResult"></div>
       </form>
 
       <div class="loading"><img src="giphy.gif" alt="" /></div>

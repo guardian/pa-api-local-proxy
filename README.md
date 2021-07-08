@@ -4,6 +4,8 @@ Currently Press Association Browser has various URL's to request the specific da
 For example Teams, Match IDs, Scrorers, Goals, math dates.
 Checking various data and results from Press Association api as a result can be tricky and laborious.
 
+By using a local browser like this there is no need to be logged in via the Guardian account.
+
 The aim to allow developers to run this api locally in order to test the data recieved from PA.
 This api deals with all the various URLs and endpoints automatically for you.
 

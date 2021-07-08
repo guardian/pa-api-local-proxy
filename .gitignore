@@ -1,3 +1,9 @@
 node_modules/*
 server/node_modules/*
 *.xml
+
+# IDE files
+.idea
+.vscode/*
+!.vscode/extensions.json
+.metals/
