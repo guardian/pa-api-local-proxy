@@ -102,6 +102,33 @@ function getEuroMatch() {
         })
 }
 
+function displayMatchData(element) {
+    console.log("El", element);
+    const div = document.createElement('div');
+
+    const header = document.createElement('p');
+    header.textContent = `Match ID: ${element.metaData.matchID}`
+    div.appendChild(header);
+
+    const headerHome = document.createElement('p');
+    headerHome.textContent = `Home Team: ${element.homeTeam.teamName}`
+    div.appendChild(headerHome);
+
+    const headerHomeScorers = document.createElement('p');
+    headerHomeScorers.textContent = `Home Team Scorers: ${element.homeTeam.scorers.__cdata}`
+    div.appendChild(headerHomeScorers);
+
+    const headerAway = document.createElement('p');
+    headerAway.textContent = `Away Team: ${element.awayTeam.teamName}`
+    div.appendChild(headerAway);
+
+    const headerAwayScorers = document.createElement('p');
+    headerAwayScorers.textContent = `Away Team Scorers: ${element.awayTeam.scorers.__cdata}`
+    div.appendChild(headerAwayScorers);
+
+    matchIdCompIdElement.appendChild(div)
+}
+
 function getMatchesByCompID() {
     var date = document.getElementById("inputDateCompID").value;
     var compID = document.getElementById("inputCompID").value;
@@ -122,86 +149,19 @@ function getMatchesByCompID() {
         .then(response => response.json())
         .then(matchData => {
 
-            console.log("Returned from Server to Client in client", matchData.match.metaData);
+            console.log("Returned from Server to Client in client", matchData.match);
 
             // For multi Matches on Date metaData is followed by Array with 2+ items
             // If only 1 match oin the Date data after metaData is undefined, no indexing.
             if (matchData.match.metaData === undefined) {
                 console.log(" MULTI MATCHES");
                 matchData.match.forEach(element => {
-                    console.log("El", element);
-                    const div = document.createElement('div');
-
-                    const header = document.createElement('p');
-                    header.textContent = `Match ID: ${element.metaData.matchID}`
-                    div.appendChild(header);
-
-                    const headerHome = document.createElement('p');
-                    headerHome.textContent = `Home Team: ${element.homeTeam.teamName}`
-                    div.appendChild(headerHome);
-
-                    const headerHomeScorers = document.createElement('p');
-                    headerHomeScorers.textContent = `Home Team Scorers: ${element.homeTeam.scorers.__cdata}`
-                    div.appendChild(headerHomeScorers);
-
-                    const headerAway = document.createElement('p');
-                    headerAway.textContent = `Away Team: ${element.awayTeam.teamName}`
-                    div.appendChild(headerAway);
-
-                    const headerAwayScorers = document.createElement('p');
-                    headerAwayScorers.textContent = `Away Team Scorers: ${element.awayTeam.scorers.__cdata}`
-                    div.appendChild(headerAwayScorers);
-
-                    matchIdCompIdElement.appendChild(div)
+                    displayMatchData(element);
                 })
-
             } else {
                 console.log("SINGLE MATCH");
                 console.log(matchData);
-                const div = document.createElement('div');
-
-                const header = document.createElement('p');
-                header.textContent = `Match ID: ${matchData.match.metaData.matchID}`
-                div.appendChild(header);
-
-                const headerHome = document.createElement('p');
-                headerHome.textContent = `Home Team: ${matchData.match.homeTeam.teamName}`
-                div.appendChild(headerHome);
-
-                const headerHomeScorers = document.createElement('p');
-                headerHomeScorers.textContent = `Home Team Scorers: ${matchData.match.homeTeam.scorers.__cdata}`
-                div.appendChild(headerHomeScorers);
-
-                const headerAway = document.createElement('p');
-                headerAway.textContent = `Away Team: ${matchData.match.awayTeam.teamName}`
-                div.appendChild(headerAway);
-
-                const headerAwayScorers = document.createElement('p');
-                headerAwayScorers.textContent = `Away Team Scorers: ${matchData.match.awayTeam.scorers.__cdata}`
-                div.appendChild(headerAwayScorers);
-
-                matchIdCompIdElement.appendChild(div)
-
-
+                displayMatchData(matchData.match);
             }
-
-            // matchData.match.forEach(element => {
-            //     console.log(element);
-            //     const div = document.createElement('div');
-
-            //     const header = document.createElement('p');
-            //     header.textContent = `Match ID: ${element.metaData.matchID}`
-            //     div.appendChild(header);
-
-            //     const headerHome = document.createElement('p');
-            //     headerHome.textContent = `Home Team: ${element.homeTeam.teamName}`
-            //     div.appendChild(headerHome);
-
-            //     const headerAway = document.createElement('p');
-            //     headerAway.textContent = `Away Team: ${element.awayTeam.teamName}`
-            //     div.appendChild(headerAway);
-
-            //     matchIdCompIdElement.appendChild(div)
-            // });
         })
 }

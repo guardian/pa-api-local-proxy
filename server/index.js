@@ -48,7 +48,6 @@ app.post('/goldenboot', async function (req, res) {
         rank: playerData[0].rank,
         goals: playerData[0].goals
     }
-    console.log(playerDataResponse);
     res.json(playerDataResponse);
 });
 
@@ -59,7 +58,6 @@ app.post('/matches', async function (req, res) {
     const matchDetails = `http://football-api.gu-web.net/v1.5/competition/matchDay/${api_input_user}/750/${dateMatch}`
     const fetch_resp = await fetch(matchDetails)
     const match = await fetch_resp.text()
-    console.log(match)
 
     if (parser.validate(match) === true) { //optional (it'll return an object in case it's not valid)
         var jsonObj = parser.parse(match, options);
@@ -68,6 +66,25 @@ app.post('/matches', async function (req, res) {
 
 
     const matchDataResponse = jsonObj.matches
+    res.set('Content-Type', 'application/json');
+    res.send(matchDataResponse);
+});
+
+app.post('/allmatches', async function (req, res) {
+    const api_input_user = req.body.api_key
+    const dateMatch = req.body.date
+    const compID = req.body.compID
+    const matchDetails = `http://football-api.gu-web.net/v1.5/competition/matchDay/${api_input_user}/${compID}/${dateMatch}`
+    const fetch_resp = await fetch(matchDetails)
+    const match = await fetch_resp.text()
+
+    if (parser.validate(match) === true) { //optional (it'll return an object in case it's not valid)
+        var jsonObj = parser.parse(match, options);
+        // console.log("ADDED XML:", jsonObj.matches.match)
+    }
+
+    const matchDataResponse = jsonObj.matches
+    console.log(">>>SEEE>>", matchDataResponse.match);
     res.set('Content-Type', 'application/json');
     res.send(matchDataResponse);
 });
