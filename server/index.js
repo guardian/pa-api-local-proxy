@@ -23,7 +23,6 @@ var options = {
     stopNodes: ["parse-me-as-string"]
 };
 
-// var fs = quire('fs');
 const app = express();
 const fetch = require('node-fetch')
 app.use(cors());
@@ -80,11 +79,28 @@ app.post('/allmatches', async function (req, res) {
 
     if (parser.validate(match) === true) { //optional (it'll return an object in case it's not valid)
         var jsonObj = parser.parse(match, options);
-        // console.log("ADDED XML:", jsonObj.matches.match)
+        console.log("ADDED XML:", jsonObj.matches.match)
     }
 
     const matchDataResponse = jsonObj.matches
-    console.log(">>>SEEE>>", matchDataResponse.match);
+    console.log("All matches: ", matchDataResponse.match);
+    res.set('Content-Type', 'application/json');
+    res.send(matchDataResponse);
+});
+
+app.post('/matchlineupevents', async function (req, res) {
+    console.log("WE HERRER")
+    const api_input_user = req.body.api_key
+    const matchID = req.body.matchID
+    const matchEventDetails = `http://football-api.gu-web.net/v1.5/match/lineUps/${api_input_user}/${matchID}`
+    const fetch_resp = await fetch(matchEventDetails)
+    const match = await fetch_resp.text()
+    console.log('HEEER', match)
+    if (parser.validate(match) === true) {
+        var jsonObj = parser.parse(match, options);
+        console.log("ADDED XML from Events:", jsonObj)
+    }
+    const matchDataResponse = jsonObj
     res.set('Content-Type', 'application/json');
     res.send(matchDataResponse);
 });

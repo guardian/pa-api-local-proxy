@@ -4,9 +4,11 @@ const loadingElement = document.querySelector('.loading');
 const goldBootElement = document.querySelector('.goldenboot')
 const matchIdElement = document.querySelector('.outputMatchIDResults')
 const matchIdCompIdElement = document.querySelector('.matchCompIDResult')
+const matchEventsGoals = document.querySelector('.matchEventsGoals')
 const API_URL_GOLD = 'http://localhost:5000/goldenboot';
 const API_MATCHES = "http://localhost:5000/matches";
 const API_COMPID_DATE = "http://localhost:5000/allmatches";
+const API_MATCH_EVENTS = "http://localhost:5000/matchlineupevents"
 loadingElement.style.display = 'none'
 // form.style.display = ''
 
@@ -14,10 +16,12 @@ const
     submit = document.getElementById('submitName'),
     submit2 = document.getElementById('submitDate');
 submit3 = document.getElementById('submitMatchCompId');
+submit4 = document.getElementById('submitMatchIdEvents')
 
 submit.addEventListener('click', getSearchGold);
 submit2.addEventListener('click', getEuroMatch);
-submit3.addEventListener('click', getMatchesByCompID)
+submit3.addEventListener('click', getMatchesByCompID);
+submit4.addEventListener('click', getLineupsWithEvents);
 
 function getSearchGold() {
     var playerName = document.getElementById("inputPlayerName").value;
@@ -37,8 +41,6 @@ function getSearchGold() {
         .then(response => response.json())
         .then(playerData => {
             console.log("Returned from Server to Client in client", playerData);
-            // form.style.display = ''
-            // loadingElement.style.display = 'none'
             const div = document.createElement('div');
 
             const header = document.createElement('p');
@@ -55,7 +57,6 @@ function getSearchGold() {
             div.appendChild(scorerRank);
 
             goldBootElement.appendChild(div)
-            // document.getElementById("country").textContent = "TREEEEEE";
         })
 
 
@@ -163,5 +164,75 @@ function getMatchesByCompID() {
                 console.log(matchData);
                 displayMatchData(matchData.match);
             }
+        })
+}
+
+function getLineupsWithEvents() {
+    var matchID = document.getElementById("inputMatchID").value;
+    var apikey = document.getElementById("input-api-key").value;
+    const matchCompIdData = {
+        api_key: apikey,
+        matchID
+    }
+
+    const options = {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(matchCompIdData)
+    }
+    fetch(API_MATCH_EVENTS, options)
+        .then(response => response.json())
+        .then(matchData => {
+
+            console.log("Returned from Server INITIAL DATA:", matchData);
+
+            const extractEventData = (players, eventType) => {
+                const allEventData = [];
+                for (let i = 0; i < players.length; i++) {
+                    let player = players[i];
+                    if (!player.events || !player.events.event || !Array.isArray(player.events.event)) {
+                        continue;
+                    }
+                    for (var j = 0; j < player.events.event.length; j++) {
+                        let evtData = player.events.event[j];
+                        if (evtData.metaData.type !== eventType) {
+                            continue;
+                        }
+                        evtData.metaData.playerName = player.fullName;
+                        allEventData.push(evtData.metaData);
+                    }
+                }
+                return allEventData;
+            }
+
+            const homeTeamData = extractEventData(matchData.match.teams.homeTeam.players.player, 'goal')
+            console.log('homeTeamData', homeTeamData);
+
+            const awayTeamData = extractEventData(matchData.match.teams.awayTeam.players.player, 'goal')
+            console.log('awayTeamData', awayTeamData);
+
+            //Create HTML Elements
+            const div = document.createElement('div');
+
+            const headerHomeScorers = document.createElement('p');
+            let homeContent = `Home Team ${matchData.match.teams.homeTeam.metaData.teamName} Scorers: `;
+            for (let i = 0; i < homeTeamData.length; i++) {
+                homeContent += `${homeTeamData[i].playerName} (${homeTeamData[i].eventTime})`;
+
+            }
+            headerHomeScorers.textContent = homeContent;
+            div.appendChild(headerHomeScorers);
+
+
+            const headerAwayScorers = document.createElement('p');
+            let awayContent = `Away Team ${matchData.match.teams.awayTeam.metaData.teamName} Scorers: `;
+            for (let i = 0; i < awayTeamData.length; i++) {
+                awayContent += `${awayTeamData[i].playerName} (${awayTeamData[i].eventTime})`;
+
+            }
+            headerAwayScorers.textContent = awayContent;
+            div.appendChild(headerAwayScorers);
+
+            matchEventsGoals.appendChild(div)
         })
 }

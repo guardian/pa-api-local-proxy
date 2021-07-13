@@ -13,7 +13,12 @@
     </header>
     <main>
       <form class="proxy-api" id="searching" action="javascript:void(0);">
-        <input type="text" name="api-key" id="input-api-key" value="" />
+        <input
+          type="text"
+          name="api-key"
+          id="input-api-key"
+          value="3vzwgn3u3j"
+        />
         <br /><br />
         <label for="search">Enter Player Name </label>
         <input type="text" name="name" id="inputPlayerName" value="" />
@@ -46,6 +51,23 @@
         /><br />
         <input type="submit" id="submitMatchCompId" value="Search Comps ID" />
         <div class="matchCompIDResult"></div>
+
+        <br />
+        <label for="searchMatchEvents"
+          >Enter Match ID of match to get Events
+        </label>
+        <input
+          type="text"
+          name="name"
+          id="inputMatchID"
+          value="4263189"
+        /><br />
+        <input
+          type="submit"
+          id="submitMatchIdEvents"
+          value="Search Events with Match ID"
+        />
+        <div class="matchEventsGoals"></div>
       </form>
 
       <div class="loading"><img src="giphy.gif" alt="" /></div>
