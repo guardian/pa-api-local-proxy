@@ -37,3 +37,6 @@ alternatively must be in pa-api-local-proxy/client
 
 ## API - Key
 - API key for Press Association - found in AWS services for Guardian employees
+
+
+![image](https://user-images.githubusercontent.com/49187886/125524795-c078bee9-8b49-40b6-96ac-8bf3d6e1e932.png)
