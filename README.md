@@ -38,5 +38,22 @@ alternatively must be in pa-api-local-proxy/client
 ## API - Key
 - API key for Press Association - found in AWS services for Guardian employees
 
+## Actions Available
 
+Blank form
+![image](https://user-images.githubusercontent.com/49187886/125525216-5359f3b0-5764-468a-8333-66842d938595.png)
+
+Goalscorer and Rank:
+![image](https://user-images.githubusercontent.com/49187886/125526866-0061f510-a1b3-4432-8637-0458868ddb53.png)
+
+Searching for all matches on a date:
+![image](https://user-images.githubusercontent.com/49187886/125526632-705e00cf-379f-4fd3-a887-465d1a2104ac.png)
+
+List of Match IDs for Date:
+![image](https://user-images.githubusercontent.com/49187886/125526764-dd90d677-e104-4e0d-8975-c4a55daa6b9a.png)
+
+Search for Any Events based on Match ID
+ - We can search for any event in PA for a player
+    - "goal" | "free kick" | "shot on target" | "own goal"
+One of the issues faced with this endpoint os the structure of the XML data: depending on whether a player has been substituted, scored 1 or more goals will place data in an array or an object. the logic for this takes this into account to 'clean the data'
 ![image](https://user-images.githubusercontent.com/49187886/125524795-c078bee9-8b49-40b6-96ac-8bf3d6e1e932.png)

@@ -134,13 +134,11 @@ function getMatchesByCompID() {
     var date = document.getElementById("inputDateCompID").value;
     var compID = document.getElementById("inputCompID").value;
     var apikey = document.getElementById("input-api-key").value;
-
-    console.log("CompID...", compID);
+    // console.log("CompID...", compID);
     const matchCompIdData = {
         date: date,
-        compID,
         api_key: apikey,
-
+        compID
     }
 
     const options = {
@@ -169,15 +167,14 @@ function getMatchesByCompID() {
         })
 }
 
+
+// Now we fget  the key...
 function getLineupsWithEvents() {
     var matchID = document.getElementById("inputMatchID").value;
     var apikey = document.getElementById("input-api-key").value;
-    var eventType = document.getElementById("inputEventType").value;
-
     const matchCompIdData = {
-        matchID,
-        eventType,
         api_key: apikey,
+        matchID
     }
 
     const options = {
@@ -190,6 +187,25 @@ function getLineupsWithEvents() {
         .then(matchData => {
 
             console.log("Returned from Server INITIAL DATA:", matchData);
+
+            /*
+                        const extractEventData = (players, eventType) => {
+                const allEventData = players.map((sub) => {
+                    if (!sub.events || !sub.events.event || !Array.isArray(sub.events.event)) {
+                        return null;
+                    }
+                    const playerEventData = sub.events.event.map((evtData) => {
+                        if (evtData.metaData.type !== eventType) {
+                            return null;
+                        }
+                        evtData.metaData.playerName = sub.fullName;
+                        return evtData.metaData;
+                    })
+                    return playerEventData;
+                })
+                console.log('allEventData', allEventData);
+                return allEventData;
+            }*/
 
             const extractEventData = (players, eventType) => {
                 const allEventData = [];
@@ -207,16 +223,68 @@ function getLineupsWithEvents() {
                         allEventData.push(evtData.metaData);
                     }
                 }
+                //console.log('allEventData', allEventData);
                 return allEventData;
             }
 
-            const homeTeamData = extractEventData(matchData.match.teams.homeTeam.players.player, eventType)
+            const homeTeamData = extractEventData(matchData.match.teams.homeTeam.players.player, 'goal')
             console.log('homeTeamData', homeTeamData);
 
-            const awayTeamData = extractEventData(matchData.match.teams.awayTeam.players.player, eventType)
+            const awayTeamData = extractEventData(matchData.match.teams.awayTeam.players.player, 'goal')
             console.log('awayTeamData', awayTeamData);
 
-            //Create HTML Elements
+            // const homeTeamData = matchData.match.teams.homeTeam.players.player.map(function (sub) {
+            //     return sub.events.event
+            // }) // needs to be iterated over
+            // console.log("!!HOME!!", homeTeamData)
+
+            // const awayTeamData = matchData.match.teams.awayTeam.players.player.map(function (sub) {
+            //     return sub.events.event
+            // }) // needs to be iterated over
+            // console.log("!!AWAY!!", awayTeamData)
+
+            /*
+            const flattenHome = homeTeamData.flat()
+            console.log("FLAThome", flattenHome);
+
+            var filteredBadHome = [];
+            var filteredGoodHome = [];
+            flattenHome.forEach(el => {
+                if (!el || el === "undefined") {
+                    filteredBadHome.push(el)
+                }
+                else {
+                    filteredGoodHome.push(el)
+                }
+            })
+
+            const flattenAway = awayTeamData.flat()
+            console.log("FLATaway", flattenAway);
+
+            var filteredBadAway = [];
+            var filteredGoodAway = [];
+            flattenAway.forEach(el => {
+                if (!el || el === "undefined") {
+                    filteredBadAway.push(el)
+                }
+                else {
+                    filteredGoodAway.push(el)
+                }
+            })
+
+            const filteredEventGoalsHome = filteredGoodHome.filter(a => a.metaData.type === "goal" | a.metaData.type === "own goal")
+            console.log(">>>>HOMEW>>>>", filteredEventGoalsHome);
+
+            const filteredEventGoalsAway = filteredGoodAway.filter(a => a.metaData.type === "goal" | a.metaData.type === "own goal")
+            console.log(">>>AWAY>>>>>", filteredEventGoalsAway)
+            const awayGoals = filteredEventGoalsAway.map(a => {
+                return {
+                    typee: a.metaData.type,
+                    time: a.metaData.eventTime
+                }
+            })
+            */
+            //Create HTML Elems
             const div = document.createElement('div');
 
             const headerHomeScorers = document.createElement('p');

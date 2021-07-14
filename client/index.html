@@ -9,16 +9,11 @@
   </head>
   <body>
     <header style="background-color: lightsalmon" class="title">
-      <h4>Search PA api</h4>
+      <h4>Guardian - Search PA locally</h4>
     </header>
     <main>
       <form class="proxy-api" id="searching" action="javascript:void(0);">
-        <input
-          type="text"
-          name="api-key"
-          id="input-api-key"
-          value="3vzwgn3u3j"
-        />
+        <input type="text" name="api-key" id="input-api-key" value="" />
         <br /><br />
         <label for="search">Enter Player Name </label>
         <input type="text" name="name" id="inputPlayerName" value="" />
@@ -54,18 +49,14 @@
 
         <br />
         <label for="searchMatchEvents"
-          >Enter Match ID of match to get Events
+          >Enter Match ID of match and Event Type ('goal', 'free kick')
         </label>
-        <input
-          type="text"
-          name="name"
-          id="inputMatchID"
-          value="4263189"
-        /><br />
+        <input type="text" name="name" id="inputMatchID" value="" /><br />
+        <input type="text" name="name" id="inputEventType" value="" /><br />
         <input
           type="submit"
           id="submitMatchIdEvents"
-          value="Search Events with Match ID"
+          value="Search Events with Match ID)"
         />
         <div class="matchEventsGoals"></div>
       </form>

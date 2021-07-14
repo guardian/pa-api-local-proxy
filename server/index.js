@@ -70,16 +70,17 @@ app.post('/matches', async function (req, res) {
 });
 
 app.post('/allmatches', async function (req, res) {
-    const api_input_user = req.body.api_key
-    const dateMatch = req.body.date
-    const compID = req.body.compID
+    const api_input_user = req.body.api_key;
+    const dateMatch = req.body.date;
+    const compID = req.body.compID;
+    console.log("Body from /allmatches", req.body)
     const matchDetails = `http://football-api.gu-web.net/v1.5/competition/matchDay/${api_input_user}/${compID}/${dateMatch}`
     const fetch_resp = await fetch(matchDetails)
     const match = await fetch_resp.text()
 
     if (parser.validate(match) === true) { //optional (it'll return an object in case it's not valid)
         var jsonObj = parser.parse(match, options);
-        console.log("ADDED XML:", jsonObj.matches.match)
+        console.log("All Matches XML:", jsonObj.matches.match)
     }
 
     const matchDataResponse = jsonObj.matches
@@ -89,13 +90,14 @@ app.post('/allmatches', async function (req, res) {
 });
 
 app.post('/matchlineupevents', async function (req, res) {
-    console.log("WE HERRER")
     const api_input_user = req.body.api_key
+    const eventType = req.body.eventType;
     const matchID = req.body.matchID
+    console.log("Body from /matchlineupevents", req.body)
+
     const matchEventDetails = `http://football-api.gu-web.net/v1.5/match/lineUps/${api_input_user}/${matchID}`
     const fetch_resp = await fetch(matchEventDetails)
     const match = await fetch_resp.text()
-    console.log('HEEER', match)
     if (parser.validate(match) === true) {
         var jsonObj = parser.parse(match, options);
         console.log("ADDED XML from Events:", jsonObj)
